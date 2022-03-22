@@ -40,6 +40,7 @@ db:
 	$(SH_PHP) bin/console doctrine:cache:clear-query --flush
 	$(SH_PHP) bin/console doctrine:cache:clear-metadata --flush
 	$(SH_PHP) bin/console doctrine:cache:clear-result --flush
+	$(SH_PHP) bin/console doctrine:migrations:execute 'App\Application\Migrations\Version20220322172206' -q
 
 install:
 	$(SH_PHP) composer install
