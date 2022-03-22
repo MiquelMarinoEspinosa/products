@@ -27,12 +27,7 @@ final class ProductTest extends TestCase
      */
     public function shouldReturnTheSku(): void
     {
-        $product = new Product(
-            self::SKU,
-            $this->faker->name(),
-            self::CATEGORY_BOOTS,
-            $this->faker->numberBetween()
-        );
+        $product = $this->buildDefaultProduct();
 
         $this->assertSame(
             self::SKU,
@@ -64,12 +59,7 @@ final class ProductTest extends TestCase
      */
     public function shouldReturnTheCategory(): void
     {
-        $product = new Product(
-            self::SKU,
-            $this->faker->name(),
-            self::CATEGORY_BOOTS,
-            $this->faker->numberBetween()
-        );
+        $product = $this->buildDefaultProduct();
 
         $this->assertSame(
             self::CATEGORY_BOOTS,
@@ -93,6 +83,33 @@ final class ProductTest extends TestCase
         $this->assertSame(
             $price,
             $product->price()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function givenTheProductWithNoDiscountShouldReturnNoDiscount(): void
+    {
+        $product = new Product(
+            self::SKU,
+            $this->faker->name(),
+            self::CATEGORY_SANDALS,
+            $this->faker->numberBetween()
+        );
+
+        $this->assertNull(
+            $product->discount()
+        );
+    }
+
+    public function buildDefaultProduct(): Product
+    {
+        return new Product(
+            self::SKU,
+            $this->faker->name(),
+            self::CATEGORY_BOOTS,
+            $this->faker->numberBetween()
         );
     }
 }

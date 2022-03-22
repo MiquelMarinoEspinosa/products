@@ -33,4 +33,9 @@ final class Product
     {
         return $this->price;
     }
+
+    public function discount(): ?float
+    {
+        return null;
+    }
 }
