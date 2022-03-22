@@ -6,4 +6,9 @@ namespace App\Product\Domain\Repository;
 
 final class ProductCriteria
 {
+    public function __construct(
+        private ?string $category,
+        private ?int $priceLessThan
+    ) {
+    }
 }
