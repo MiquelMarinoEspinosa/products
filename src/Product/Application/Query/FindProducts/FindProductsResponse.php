@@ -6,4 +6,11 @@ namespace App\Product\Application\Query\FindProducts;
 
 final class FindProductsResponse
 {
+    /**
+     * @param ProductResponse[] $productResponse
+     */
+    public function __construct(
+        public readonly array $productResponses
+    ) {
+    }
 }

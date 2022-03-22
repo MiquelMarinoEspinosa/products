@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Product\Domain\Repository;
 
-use Doctrine\Common\Collections\ArrayCollection;
+use App\Product\Domain\Entity\ProductCollection;
 
 interface ProductRepository
 {
-    public function findByCriteria(ProductCriteria $productCriteria): ArrayCollection;
+    public function findByCriteria(ProductCriteria $productCriteria): ProductCollection;
 }

@@ -7,6 +7,7 @@ namespace App\Tests\Unit\Product\Application\Query\FindProducts;
 use App\Product\Application\Exception\CannotFindProducts;
 use App\Product\Application\Query\FindProducts\FindProductsHandler;
 use App\Product\Application\Query\FindProducts\FindProductsQuery;
+use App\Product\Domain\Entity\ProductCollection;
 use App\Product\Domain\Repository\ProductCriteria;
 use App\Product\Domain\Repository\ProductRepository;
 use Faker\Factory;
@@ -50,5 +51,24 @@ final class FindProductsHandlerTest extends TestCase
         $this->handler->__invoke($query);
     }
 
-    
+    /**
+     * @test
+     */
+    public function shouldReturnEmptyProductsResponse(): void
+    {
+        $category = null;
+        $priceLessThan = null;
+        $query = new FindProductsQuery($category, $priceLessThan);
+        $criteria = new ProductCriteria(
+            $query->category,
+            $query->priceLessThan
+        );
+        $this->productRepository
+            ->expects(self::once())
+            ->method('findByCriteria')
+            ->with($criteria)
+            ->willReturn(new ProductCollection([]));
+        $response = $this->handler->__invoke($query);
+        $this->assertEmpty($response->productResponses);
+    }
 }

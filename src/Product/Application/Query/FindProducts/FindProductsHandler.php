@@ -25,6 +25,8 @@ final class FindProductsHandler
                 $query->priceLessThan
             );
             $this->productRepository->findByCriteria($criteria);
+
+            return new FindProductsResponse([]);
         } catch (\Exception $exception) {
             throw new CannotFindProducts(self::ERROR_MESSAGE);
         }
