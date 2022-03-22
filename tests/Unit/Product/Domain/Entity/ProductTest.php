@@ -39,4 +39,23 @@ final class ProductTest extends TestCase
             $product->sku()
         );
     }
+
+    /**
+     * @test
+     */
+    public function shouldReturnTheName(): void
+    {
+        $name = $this->faker->name();
+        $product = new Product(
+            self::SKU,
+            $name,
+            self::CATEGORY_BOOTS,
+            $this->faker->numberBetween()
+        );
+
+        $this->assertSame(
+            $name,
+            $product->name()
+        );
+    }
 }
