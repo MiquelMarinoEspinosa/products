@@ -21,7 +21,7 @@ final class FindProductsHandlerTest extends TestCase
 {
     private const SKU = '000001';
     private const CATEGORY_SANDALS = 'sandals';
-    private const CURRENCY_EUR = 'EUR';
+    private const CATEGORY_BOOTS = 'boots';
 
     private Generator $faker;
     private ProductRepository|MockObject $productRepository;
@@ -80,22 +80,13 @@ final class FindProductsHandlerTest extends TestCase
 
     /**
      * @test
+     * @dataProvider queryAndProductProvider
      */
-    public function shouldReturnProductsResponse(): void
+    public function shouldReturnProductsResponse(FindProductsQuery $query, Product $product): void
     {
-        $category = null;
-        $priceLessThan = null;
-        $query = new FindProductsQuery($category, $priceLessThan);
         $criteria = new ProductCriteria(
             $query->category,
             $query->priceLessThan
-        );
-
-        $product = new Product(
-            self::SKU,
-            $this->faker->name(),
-            self::CATEGORY_SANDALS,
-            $this->faker->numberBetween()
         );
 
         $this->productRepository
@@ -118,5 +109,48 @@ final class FindProductsHandlerTest extends TestCase
 
         $this->assertNotEmpty($response->productResponses);
         $this->assertEquals([$productResponse], $response->productResponses);
+    }
+
+    public function queryAndProductProvider(): array
+    {
+        $this->faker = Factory::create();
+
+        return [
+            'no criteria product without discount' => [
+                new FindProductsQuery(null, null),
+                $this->buildDefaultProduct(),
+            ],
+            'category criteria product without discount' => [
+                new FindProductsQuery(self::CATEGORY_SANDALS, null),
+                $this->buildDefaultProduct(),
+            ],
+            'priceLessThan criteria product without discount' => [
+                new FindProductsQuery(null, 1000),
+                $this->buildDefaultProduct(),
+            ],
+            'all criteria product without discount' => [
+                new FindProductsQuery(self::CATEGORY_SANDALS, 1000),
+                $this->buildDefaultProduct(),
+            ],
+            'no criteria product with discount' => [
+                new FindProductsQuery(null, null),
+                new Product(
+                    self::SKU,
+                    $this->faker->name(),
+                    self::CATEGORY_BOOTS,
+                    $this->faker->numberBetween()
+                ),
+            ],
+        ];
+    }
+
+    private function buildDefaultProduct(): Product
+    {
+        return new Product(
+            self::SKU,
+            $this->faker->name(),
+            self::CATEGORY_SANDALS,
+            $this->faker->numberBetween()
+        );
     }
 }
