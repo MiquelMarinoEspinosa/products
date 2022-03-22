@@ -58,4 +58,41 @@ final class ProductTest extends TestCase
             $product->name()
         );
     }
+
+    /**
+     * @test
+     */
+    public function shouldReturnTheCategory(): void
+    {
+        $product = new Product(
+            self::SKU,
+            $this->faker->name(),
+            self::CATEGORY_BOOTS,
+            $this->faker->numberBetween()
+        );
+
+        $this->assertSame(
+            self::CATEGORY_BOOTS,
+            $product->category()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function shouldReturnThePrice(): void
+    {
+        $price = $this->faker->numberBetween();
+        $product = new Product(
+            self::SKU,
+            $this->faker->name(),
+            self::CATEGORY_BOOTS,
+            $price
+        );
+
+        $this->assertSame(
+            $price,
+            $product->price()
+        );
+    }
 }

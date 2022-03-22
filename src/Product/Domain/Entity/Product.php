@@ -18,4 +18,19 @@ final class Product
     {
         return $this->sku;
     }
+
+    public function name(): string
+    {
+        return $this->name;
+    }
+
+    public function category(): string
+    {
+        return $this->category;
+    }
+
+    public function price(): int
+    {
+        return $this->price;
+    }
 }
