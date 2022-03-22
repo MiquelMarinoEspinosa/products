@@ -130,6 +130,25 @@ final class ProductTest extends TestCase
         );
     }
 
+    /**
+     * @test
+     */
+    public function givenAProductWithCategoryBootsShouldReturnAPriceWith30PercentDiscount(): void
+    {
+        $price = $this->faker->numberBetween();
+        $product = new Product(
+            self::SKU,
+            $this->faker->name(),
+            self::CATEGORY_BOOTS,
+            $price
+        );
+
+        $this->assertSame(
+            (int) round($price * (1 - SELF::DISCOUNT_BOOTS)),
+            $product->priceWithDiscount()
+        );
+    }
+
     private function buildDefaultProduct(): Product
     {
         return new Product(

@@ -49,6 +49,6 @@ final class Product
 
     public function priceWithDiscount(): int
     {
-        return $this->price;
+        return (int) round($this->price * (1 - $this->discount()));
     }
 }
