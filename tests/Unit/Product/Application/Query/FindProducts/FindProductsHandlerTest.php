@@ -49,4 +49,6 @@ final class FindProductsHandlerTest extends TestCase
             ->willThrowException(new \Exception());
         $this->handler->__invoke($query);
     }
+
+    
 }
