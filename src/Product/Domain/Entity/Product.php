@@ -46,7 +46,7 @@ final class Product
             $discount = self::CATEGORY_BOOTS_DISCOUNT;
         }
 
-        if (self::SKU_0000003 === $this->sku) {
+        if (self::SKU_0000003 === $this->sku && $discount < self::DISCOUNT_SKU_0000003) {
             $discount = self::DISCOUNT_SKU_0000003;
         }
 

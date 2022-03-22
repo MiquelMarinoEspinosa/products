@@ -117,7 +117,7 @@ final class ProductTest extends TestCase
     /**
      * @test
      */
-    public function givenAProductWithCategoryBootsShouldReturn30PercentDiscount(): void
+    public function givenAProductWithCategoryBootsShouldReturnThePercentDiscount(): void
     {
         $product = new Product(
             self::SKU,
@@ -135,7 +135,7 @@ final class ProductTest extends TestCase
     /**
      * @test
      */
-    public function givenAProductWithCategoryBootsShouldReturnAPriceWith30PercentDiscount(): void
+    public function givenAProductWithCategoryBootsShouldReturnAPriceWithThePercentDiscountApplied(): void
     {
         $price = $this->faker->numberBetween();
         $product = new Product(
@@ -146,16 +146,15 @@ final class ProductTest extends TestCase
         );
 
         $this->assertSame(
-            (int) round($price * (1 - SELF::DISCOUNT_BOOTS)),
+            (int) round($price * (1 - self::DISCOUNT_BOOTS)),
             $product->priceWithDiscount()
         );
     }
 
-
     /**
      * @test
      */
-    public function givenAProductWithSku0000003ShouldReturn15PercentDiscount(): void
+    public function givenAProductWithSku0000003ShouldReturnThePercentDiscount(): void
     {
         $product = new Product(
             self::SKU_0000003,
@@ -173,7 +172,7 @@ final class ProductTest extends TestCase
     /**
      * @test
      */
-    public function givenAProductWithSku0000003ShouldReturnAPriceWith15PercentDiscount(): void
+    public function givenAProductWithSku0000003ShouldReturnAPriceWithThePercentDiscountApplied(): void
     {
         $price = $this->faker->numberBetween();
         $product = new Product(
@@ -184,7 +183,44 @@ final class ProductTest extends TestCase
         );
 
         $this->assertSame(
-            (int) round($price * (1 - SELF::DISCOUNT_SKU_0000003)),
+            (int) round($price * (1 - self::DISCOUNT_SKU_0000003)),
+            $product->priceWithDiscount()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function givenABootsProductWithSku0000003ShouldReturnTheBiggestDiscount(): void
+    {
+        $product = new Product(
+            self::SKU_0000003,
+            $this->faker->name(),
+            self::CATEGORY_BOOTS,
+            $this->faker->numberBetween()
+        );
+
+        $this->assertSame(
+            self::DISCOUNT_BOOTS,
+            $product->discount()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function givenABootsProductWithSku0000003ShouldReturnAPriceWithTheCategoryBootsPercentDiscountApplied(): void
+    {
+        $price = $this->faker->numberBetween();
+        $product = new Product(
+            self::SKU_0000003,
+            $this->faker->name(),
+            self::CATEGORY_BOOTS,
+            $price
+        );
+
+        $this->assertSame(
+            (int) round($price * (1 - self::DISCOUNT_BOOTS)),
             $product->priceWithDiscount()
         );
     }
