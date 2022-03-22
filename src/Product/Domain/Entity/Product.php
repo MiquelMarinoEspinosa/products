@@ -8,6 +8,8 @@ final class Product
 {
     private const CATEGORY_BOOTS = 'boots';
     private const CATEGORY_BOOTS_DISCOUNT = 0.3;
+    private const SKU_0000003 = '0000003';
+    private const DISCOUNT_SKU_0000003 = 0.15;
 
     public function __construct(
         private string $sku,
@@ -42,6 +44,10 @@ final class Product
         $discount = null;
         if (self::CATEGORY_BOOTS === $this->category) {
             $discount = self::CATEGORY_BOOTS_DISCOUNT;
+        }
+
+        if (self::SKU_0000003 === $this->sku) {
+            $discount = self::DISCOUNT_SKU_0000003;
         }
 
         return $discount;

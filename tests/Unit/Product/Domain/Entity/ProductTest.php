@@ -15,6 +15,8 @@ final class ProductTest extends TestCase
     private const CATEGORY_BOOTS = 'boots';
     private const CATEGORY_SANDALS = 'sandals';
     private const DISCOUNT_BOOTS = 0.3;
+    private const SKU_0000003 = '0000003';
+    private const DISCOUNT_SKU_0000003 = 0.15;
 
     private Generator $faker;
 
@@ -145,6 +147,44 @@ final class ProductTest extends TestCase
 
         $this->assertSame(
             (int) round($price * (1 - SELF::DISCOUNT_BOOTS)),
+            $product->priceWithDiscount()
+        );
+    }
+
+
+    /**
+     * @test
+     */
+    public function givenAProductWithSku0000003ShouldReturn15PercentDiscount(): void
+    {
+        $product = new Product(
+            self::SKU_0000003,
+            $this->faker->name(),
+            self::CATEGORY_SANDALS,
+            $this->faker->numberBetween()
+        );
+
+        $this->assertSame(
+            self::DISCOUNT_SKU_0000003,
+            $product->discount()
+        );
+    }
+
+    /**
+     * @test
+     */
+    public function givenAProductWithSku0000003ShouldReturnAPriceWith15PercentDiscount(): void
+    {
+        $price = $this->faker->numberBetween();
+        $product = new Product(
+            self::SKU_0000003,
+            $this->faker->name(),
+            self::CATEGORY_SANDALS,
+            $price
+        );
+
+        $this->assertSame(
+            (int) round($price * (1 - SELF::DISCOUNT_SKU_0000003)),
             $product->priceWithDiscount()
         );
     }
