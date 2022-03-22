@@ -38,4 +38,9 @@ final class Product
     {
         return null;
     }
+
+    public function priceWithDiscount(): int
+    {
+        return $this->price;
+    }
 }

@@ -103,6 +103,24 @@ final class ProductTest extends TestCase
         );
     }
 
+    /**
+     * @test
+     */
+    public function givenTheProductWithNoDiscountShouldReturnPriceWithDiscountEqualPrice(): void
+    {
+        $product = new Product(
+            self::SKU,
+            $this->faker->name(),
+            self::CATEGORY_SANDALS,
+            $this->faker->numberBetween()
+        );
+
+        $this->assertSame(
+            $product->price(),
+            $product->priceWithDiscount()
+        );
+    }
+
     public function buildDefaultProduct(): Product
     {
         return new Product(
