@@ -6,6 +6,9 @@ namespace App\Product\Domain\Entity;
 
 final class Product
 {
+    private const CATEGORY_BOOTS = 'boots';
+    private const CATEGORY_BOOTS_DISCOUNT = 0.3;
+
     public function __construct(
         private string $sku,
         private string $name,
@@ -36,7 +39,12 @@ final class Product
 
     public function discount(): ?float
     {
-        return null;
+        $discount = null;
+        if (self::CATEGORY_BOOTS === $this->category) {
+            $discount = self::CATEGORY_BOOTS_DISCOUNT;
+        }
+
+        return $discount;
     }
 
     public function priceWithDiscount(): int

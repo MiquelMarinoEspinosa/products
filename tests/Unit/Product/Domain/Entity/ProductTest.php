@@ -14,6 +14,7 @@ final class ProductTest extends TestCase
     private const SKU = '000001';
     private const CATEGORY_BOOTS = 'boots';
     private const CATEGORY_SANDALS = 'sandals';
+    private const DISCOUNT_BOOTS = 0.3;
 
     private Generator $faker;
 
@@ -62,7 +63,7 @@ final class ProductTest extends TestCase
         $product = $this->buildDefaultProduct();
 
         $this->assertSame(
-            self::CATEGORY_BOOTS,
+            self::CATEGORY_SANDALS,
             $product->category()
         );
     }
@@ -91,12 +92,7 @@ final class ProductTest extends TestCase
      */
     public function givenTheProductWithNoDiscountShouldReturnNoDiscount(): void
     {
-        $product = new Product(
-            self::SKU,
-            $this->faker->name(),
-            self::CATEGORY_SANDALS,
-            $this->faker->numberBetween()
-        );
+        $product = $this->buildDefaultProduct();
 
         $this->assertNull(
             $product->discount()
@@ -106,14 +102,9 @@ final class ProductTest extends TestCase
     /**
      * @test
      */
-    public function givenTheProductWithNoDiscountShouldReturnPriceWithDiscountEqualPrice(): void
+    public function givenTheProductWithNoDiscountShouldReturnPriceWithDiscountEqualOriginalPrice(): void
     {
-        $product = new Product(
-            self::SKU,
-            $this->faker->name(),
-            self::CATEGORY_SANDALS,
-            $this->faker->numberBetween()
-        );
+        $product = $this->buildDefaultProduct();
 
         $this->assertSame(
             $product->price(),
@@ -121,12 +112,30 @@ final class ProductTest extends TestCase
         );
     }
 
-    public function buildDefaultProduct(): Product
+    /**
+     * @test
+     */
+    public function givenAProductWithCategoryBootsShouldReturn30PercentDiscount(): void
+    {
+        $product = new Product(
+            self::SKU,
+            $this->faker->name(),
+            self::CATEGORY_BOOTS,
+            $this->faker->numberBetween()
+        );
+
+        $this->assertSame(
+            self::DISCOUNT_BOOTS,
+            $product->discount()
+        );
+    }
+
+    private function buildDefaultProduct(): Product
     {
         return new Product(
             self::SKU,
             $this->faker->name(),
-            self::CATEGORY_BOOTS,
+            self::CATEGORY_SANDALS,
             $this->faker->numberBetween()
         );
     }
