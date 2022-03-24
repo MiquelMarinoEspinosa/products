@@ -3,8 +3,10 @@ default:
     default:
       paths:
         - "../../../tests/Acceptance/User/features"
+        - "../../../tests/Acceptance/Product/features"
       contexts:
         - App\Tests\Acceptance\User\UserContext
+        - App\Tests\Acceptance\Product\ProductContext
 
   extensions:
     FriendsOfBehat\SymfonyExtension: null
