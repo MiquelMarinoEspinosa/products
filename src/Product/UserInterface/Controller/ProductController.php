@@ -28,10 +28,10 @@ final class ProductController
     public function create(Request $request): JsonResponse
     {
         try {
-            //$body = json_decode($request->getContent(), true);
+            $priceLessThan = $request->query->get('priceLessThan');
             $query = new FindProductsQuery(
                 $request->query->get('category'),
-                null
+                null === $priceLessThan ? $priceLessThan : (int) $priceLessThan
             );
             $envelope = $this->bus->dispatch($query);
             $response = $envelope->last(HandledStamp::class);
@@ -56,7 +56,7 @@ final class ProductController
                 'price' => [
                     'original' => $productResponse->price,
                     'final' => $productResponse->priceWithDiscount,
-                    'discount_percentatge' => (null === $productResponse->discount) ? $productResponse->discount : (100 * $productResponse->discount).self::PERCENT,
+                    'discount_percentatge' => (null === $productResponse->discount) ? $productResponse->discount : (100 * $productResponse->discount) . self::PERCENT,
                     'currency' => self::CURRENCY_EUR,
                 ],
             ],

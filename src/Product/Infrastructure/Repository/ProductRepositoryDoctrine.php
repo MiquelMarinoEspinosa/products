@@ -25,7 +25,12 @@ final class ProductRepositoryDoctrine implements ProductRepository
         $queryBuilder = $this->repository->createQueryBuilder('p');
 
         if (null !== $productCriteria->category()) {
-            $queryBuilder = $queryBuilder->where("p.category='".$productCriteria->category()."'");
+            $queryBuilder = $queryBuilder->where("p.category='" . $productCriteria->category() . "'");
+        }
+
+        if (null !== $productCriteria->priceLessThan()) {
+            $priceLessThanCondition = 'p.price<=' . $productCriteria->priceLessThan();
+            $queryBuilder = (null === $productCriteria->category()) ? $queryBuilder->where($priceLessThanCondition) : $queryBuilder->andWhere($priceLessThanCondition);
         }
 
         $products = $queryBuilder->getQuery()->execute();
