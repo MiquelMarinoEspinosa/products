@@ -25,7 +25,7 @@ final class ProductController
     }
 
     #[Route('/products', methods: ['GET'])]
-    public function create(Request $request): JsonResponse
+    public function find(Request $request): JsonResponse
     {
         try {
             $priceLessThan = $request->query->get('priceLessThan');

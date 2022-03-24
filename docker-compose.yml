@@ -33,11 +33,11 @@ services:
 
   swagger_ui:
     environment:
-      - SWAGGER_JSON=./assets/docs/users-api.yml
-      - API_URL=http://localhost/docs/users-api.yml
+      - SWAGGER_JSON=./assets/docs/products-api.yml
+      - API_URL=http://localhost/docs/products-api.yml
     image: swaggerapi/swagger-ui
     container_name: app.swagger
     volumes:
-      - "./assets/docs/users-api.yml:/usr/share/nginx/html/users-api.yml"
+      - "./assets/docs/products-api.yml:/usr/share/nginx/html/products-api.yml"
     ports:
       - 8080:8080

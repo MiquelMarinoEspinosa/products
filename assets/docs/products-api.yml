@@ -1,0 +1,75 @@
+openapi: 3.0.0
+info:
+  title: "User API"
+  version: "0.1"
+servers:
+  - url: "http://localhost"
+paths:
+  /products:
+    get:
+      tags:
+        - Product
+      operationId: 'App\Product\UserInterface\Controller::find'
+      parameters:
+        - in: query
+          name: category
+          schema:
+            type: string
+          description: Filter products by category
+        - in: query
+          name: priceLessThan
+          schema:
+            type: integer
+          description: Filter products by price less than or equal
+      responses:
+        "200":
+          description: "Products found"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ProductResource"
+        "500":
+          description: "Products not found because an error"
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResource"
+components:
+  schemas:
+    ProductResource:
+      properties:
+        sku:
+          description: "The product sku"
+          type: string
+        name:
+          description: "The product name"
+          type: string
+        category:
+          description: "The product category"
+          type: string
+        price:
+          description: "The price product data"
+          type: object
+          properties:
+            original:
+              description: "The original product price without discount"
+              type: "integer"
+            final:
+              description: "The final product price with discount applied"
+              type: "integer"
+            discount_percentatge:
+              description: "The discount percentatge applied. Null if no discount applied"
+              type: "string"
+            currency:
+              description: "The currency price. EUR by default"
+              type: "string"
+      type: object
+
+    ErrorResource:
+      properties:
+        error:
+          properties:
+            message:
+              description: "The error message"
+              type: "string"
+          type: object
