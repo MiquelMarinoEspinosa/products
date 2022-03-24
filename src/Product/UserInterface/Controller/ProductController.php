@@ -4,16 +4,22 @@ declare(strict_types=1);
 
 namespace App\Product\UserInterface\Controller;
 
+use App\Product\Application\Query\FindProducts\FindProductsQuery;
+use App\Product\Application\Query\FindProducts\FindProductsResponse;
+use App\Product\Application\Response\ProductResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\Messenger\Stamp\HandledStamp;
 use Symfony\Component\Messenger\MessageBusInterface;
-use App\Product\Application\Query\FindProducts\FindProductsQuery;
+use Symfony\Component\Messenger\Stamp\HandledStamp;
+use Symfony\Component\Routing\Annotation\Route;
 
 final class ProductController
 {
+    private const MAX_RESULTS = 5;
+    private const CURRENCY_EUR = 'EUR';
+    private const PERCENT = '%';
+
     public function __construct(private MessageBusInterface $bus)
     {
     }
@@ -30,13 +36,27 @@ final class ProductController
             $envelope = $this->bus->dispatch($query);
             $response = $envelope->last(HandledStamp::class);
 
-            $products = [
-                'products' => array_slice($response->getResult()->productResponses, 0, 5)
-            ];
-
-            return new JsonResponse($products, Response::HTTP_OK);
+            return new JsonResponse(['products' => $this->formatResponse($response->getResult())], Response::HTTP_OK);
         } catch (\Exception $exception) {
             return new JsonResponse($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
         }
+    }
+
+    private function formatResponse(FindProductsResponse $findProductResponse): array
+    {
+        return array_map(
+            fn (ProductResponse $productResponse) => [
+                'sku' => $productResponse->sku,
+                'name' => $productResponse->name,
+                'category' => $productResponse->category,
+                'price' => [
+                    'original' => $productResponse->price,
+                    'final' => $productResponse->priceWithDiscount,
+                    'discount_percentatge' => (null === $productResponse->discount) ? $productResponse->discount : (100 * $productResponse->discount).self::PERCENT,
+                    'currency' => self::CURRENCY_EUR,
+                ],
+            ],
+            array_slice($findProductResponse->productResponses, 0, self::MAX_RESULTS)
+        );
     }
 }

@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Product\Infrastructure\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use App\Product\Domain\Entity\Product;
-use Doctrine\ORM\EntityManagerInterface;
 use App\Product\Domain\Entity\ProductCollection;
 use App\Product\Domain\Repository\ProductCriteria;
 use App\Product\Domain\Repository\ProductRepository;
+use Doctrine\ORM\EntityManagerInterface;
+use Doctrine\ORM\EntityRepository;
 
 final class ProductRepositoryDoctrine implements ProductRepository
 {
