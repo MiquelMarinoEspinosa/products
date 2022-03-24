@@ -23,3 +23,7 @@ services:
   App\User\UserInterface\Controller\:
     resource: "../src/User/UserInterface/Controller"
     tags: ["controller.service_arguments"]
+
+  App\Product\UserInterface\Controller\:
+    resource: "../src/Product/UserInterface/Controller"
+    tags: ["controller.service_arguments"]

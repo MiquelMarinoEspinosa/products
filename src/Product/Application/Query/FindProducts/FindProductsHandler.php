@@ -4,11 +4,13 @@ declare(strict_types=1);
 
 namespace App\Product\Application\Query\FindProducts;
 
-use App\Product\Application\Exception\CannotFindProducts;
-use App\Product\Application\Response\ProductResponse;
 use App\Product\Domain\Repository\ProductCriteria;
 use App\Product\Domain\Repository\ProductRepository;
+use App\Product\Application\Response\ProductResponse;
+use App\Product\Application\Exception\CannotFindProducts;
+use Symfony\Component\Messenger\Attribute\AsMessageHandler;
 
+#[AsMessageHandler]
 final class FindProductsHandler
 {
     private const ERROR_MESSAGE = 'Something went wrong';
