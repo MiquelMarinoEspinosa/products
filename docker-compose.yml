@@ -19,14 +19,6 @@ services:
     ports:
       - 80:80
 
-  redis:
-    build:
-      context: etc/devel/docker/redis
-    image: app/redis
-    container_name: app.redis
-    ports:
-      - 6379:6379
-
   mysql:
     build:
       context: etc/devel/docker/mysql

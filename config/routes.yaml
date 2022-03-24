@@ -1,7 +1,3 @@
-user_controllers:
-  resource: ../src/User/UserInterface/Controller/
-  type: annotation
-
 product_controllers:
   resource: ../src/Product/UserInterface/Controller/
   type: annotation
