@@ -5,7 +5,7 @@ SH_PHP=docker exec -i -t app.php-fpm
 up: docker install db clear-cache
 
 docker: 
-	docker-compose up
+	docker-compose up -d
 
 down:
 	docker-compose down
