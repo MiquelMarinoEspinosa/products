@@ -30,7 +30,7 @@ final class ProductController
         try {
             //$body = json_decode($request->getContent(), true);
             $query = new FindProductsQuery(
-                null,
+                $request->query->get('category'),
                 null
             );
             $envelope = $this->bus->dispatch($query);
@@ -38,7 +38,11 @@ final class ProductController
 
             return new JsonResponse(['products' => $this->formatResponse($response->getResult())], Response::HTTP_OK);
         } catch (\Exception $exception) {
-            return new JsonResponse($exception->getMessage(), Response::HTTP_INTERNAL_SERVER_ERROR);
+            return new JsonResponse([
+                'error' => [
+                    'message' => $exception->getMessage(),
+                ],
+            ], Response::HTTP_INTERNAL_SERVER_ERROR);
         }
     }
 

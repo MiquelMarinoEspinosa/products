@@ -23,6 +23,11 @@ final class ProductRepositoryDoctrine implements ProductRepository
     public function findByCriteria(ProductCriteria $productCriteria): ProductCollection
     {
         $queryBuilder = $this->repository->createQueryBuilder('p');
+
+        if (null !== $productCriteria->category()) {
+            $queryBuilder = $queryBuilder->where("p.category='".$productCriteria->category()."'");
+        }
+
         $products = $queryBuilder->getQuery()->execute();
 
         return new ProductCollection($products);

@@ -11,4 +11,14 @@ final class ProductCriteria
         private ?int $priceLessThan
     ) {
     }
+
+    public function category(): ?string
+    {
+        return $this->category;
+    }
+
+    public function priceLessThan(): ?int
+    {
+        return $this->priceLessThan;
+    }
 }

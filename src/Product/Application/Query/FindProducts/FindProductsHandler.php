@@ -43,7 +43,7 @@ final class FindProductsHandler
 
             return new FindProductsResponse($productResponses);
         } catch (\Exception $exception) {
-            throw new CannotFindProducts(self::ERROR_MESSAGE);
+            throw new CannotFindProducts($exception->getMessage());
         }
     }
 }
